@@ -1,6 +1,8 @@
 // 封装axios
 import { Toast } from 'antd-mobile'
 import axios, { AxiosError } from 'axios'
+import { getToken } from './tokenSeting'
+// import { createBrowserHistory } from 'history'
 
 const request = axios.create({
   baseURL: 'http://geek.itheima.net/v1_0/',
@@ -11,6 +13,13 @@ const request = axios.create({
 request.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+    // console.log(config, 879797)
+
+    const token = getToken().token
+    if (token) {
+      config.headers!.Authorization = `Bearer ${token}`
+    } else {
+    }
     return config
   },
   function (error) {

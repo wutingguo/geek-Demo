@@ -6,7 +6,7 @@ import { setToken } from '@/utils/tokenSeting'
 export const login = (value: LoginType): RootThunkAction => {
   return async (dispatch) => {
     const res = await request.post<ApiResponse<Token>>('/authorizations', value)
-    console.log(res)
+    // console.log(res)
     setToken(res.data.data)
     dispatch({
       type: 'login/getToken',
@@ -16,7 +16,7 @@ export const login = (value: LoginType): RootThunkAction => {
 }
 export const getMobileCode = (value: string): RootThunkAction => {
   return async (dispath) => {
-    const res = await request.get(`sms/codes/${value}`)
-    console.log(res)
+    await request.get(`sms/codes/${value}`)
+    // console.log(res)
   }
 }

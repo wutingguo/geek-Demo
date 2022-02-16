@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import Login from './pages/Login'
 import Layout from './pages/Layout'
+import Edit from '@/pages/Profile/Edit'
 function App() {
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
           <Redirect exact from="/" to="/login"></Redirect>
           <Route path="/login" component={Login}></Route>
           <Route path="/home" component={Layout}></Route>
+          <Route path="/profile/edit" component={Edit}></Route>
         </Switch>
       </div>
     </Router>

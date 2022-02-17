@@ -16,10 +16,14 @@ export type Token = {
   refresh_token: string
 }
 export type LoginToken = Token
-export type LoginAction = {
-  type: 'login/getToken'
-  payload: Token
-}
+export type LoginAction =
+  | {
+      type: 'login/getToken'
+      payload: Token
+    }
+  | {
+      type: 'login/logOut'
+    }
 // --------------------profile模块------------------
 export type ProfileState = {
   user: User

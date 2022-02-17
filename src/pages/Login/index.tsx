@@ -3,12 +3,14 @@ import { NavBar, Form, Input, List, Button, Toast } from 'antd-mobile'
 import { useHistory } from 'react-router'
 import { useDispatch } from 'react-redux'
 import { LoginType } from '@/types/data'
+import { useLocation } from 'react-router-dom'
 import { getMobileCode, login } from '@/store/actions/login'
 import { useEffect, useRef, useState } from 'react'
 import { InputRef } from 'antd-mobile/es/components/input'
 
 export default function Login() {
   const history = useHistory()
+  const location = useLocation<{ from: string }>()
   const dispatch = useDispatch()
   const onFinish = async (value: LoginType) => {
     // console.log(value)
@@ -19,7 +21,8 @@ export default function Login() {
         content: '登陆成功',
         duration: 300,
         afterClose() {
-          history.push('/home')
+          const pathname = location?.state?.from || '/home'
+          history.replace(pathname)
         },
       })
     } catch (e) {

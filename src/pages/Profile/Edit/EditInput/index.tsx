@@ -1,26 +1,46 @@
 import { RootState } from '@/types/store'
 import { Input, NavBar, TextArea } from 'antd-mobile'
-import { useState } from 'react'
+import { InputRef } from 'antd-mobile/es/components/input'
+import { TextAreaRef } from 'antd-mobile/es/components/text-area'
+import { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import styles from './index.module.scss'
 type Props = {
   closeInput: () => void
   type: '' | 'name' | 'intro'
+  updateProfile: (key: string, value: string) => void
 }
-const EditInput = ({ closeInput, type }: Props) => {
+const EditInput = ({ closeInput, type, updateProfile }: Props) => {
+  const inputRef = useRef<InputRef>(null)
+  const textRef = useRef<TextAreaRef>(null)
   const userProfile = useSelector(
     (state: RootState) => state.profile.userProfile
   )
   const [value, setValue] = useState(
-    type === 'name' ? userProfile.name : userProfile.intro
+    (type === 'name' ? userProfile.name : userProfile.intro) || ''
   )
+  useEffect(() => {
+    if (type === 'name') {
+      inputRef.current?.focus()
+    } else {
+      textRef.current?.focus()
+      document.querySelector('textarea')?.setSelectionRange(-1, -1)
+    }
+  }, [type])
   return (
     <div className={styles.root}>
       <NavBar
         onBack={() => closeInput()}
         className="navbar"
-        right={<span className="commit-btn">提交</span>}
+        right={
+          <span
+            className="commit-btn"
+            onClick={() => updateProfile(type, value)}
+          >
+            提交
+          </span>
+        }
       >
         {type === 'name' ? '编辑昵称' : '编辑简介'}
       </NavBar>
@@ -34,6 +54,7 @@ const EditInput = ({ closeInput, type }: Props) => {
               placeholder="请输入"
               value={value}
               onChange={(value) => setValue(value)}
+              ref={inputRef}
             />
           </div>
         ) : (
@@ -44,6 +65,7 @@ const EditInput = ({ closeInput, type }: Props) => {
             maxLength={99}
             value={value}
             onChange={(value) => setValue(value)}
+            ref={textRef}
           />
         )}
       </div>

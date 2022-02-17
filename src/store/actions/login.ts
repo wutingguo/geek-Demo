@@ -1,7 +1,17 @@
 import { LoginType } from '@/types/data'
-import { ApiResponse, RootThunkAction, Token } from '@/types/store'
+import { ApiResponse, LoginAction, RootThunkAction, Token } from '@/types/store'
 import request from '@/utils/requst'
-import { setToken } from '@/utils/tokenSeting'
+import { removeToken, setToken } from '@/utils/tokenSeting'
+
+// 退出登录,清除token
+
+export const logOut = (): LoginAction => {
+  removeToken()
+
+  return {
+    type: 'login/logOut',
+  }
+}
 
 export const login = (value: LoginType): RootThunkAction => {
   return async (dispatch) => {

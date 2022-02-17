@@ -6,6 +6,7 @@ import Home from '../Home'
 import Question from '../Question'
 import Profile from '../Profile'
 import Video from '../Video'
+import PrivateRoute from '@/components/PrivateRoute'
 
 const tabs = [
   {
@@ -40,7 +41,7 @@ const Layout = () => {
       {/* 使用 antd 的 TabBar 组件，并指定类名 tab-bar */}
       <Switch>
         <Route exact path="/home" component={Home}></Route>
-        <Route path="/home/profile" component={Profile}></Route>
+        <PrivateRoute path="/home/profile" component={Profile}></PrivateRoute>
         <Route path="/home/question" component={Question}></Route>
         <Route path="/home/video" component={Video}></Route>
       </Switch>

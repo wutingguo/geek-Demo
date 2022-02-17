@@ -10,6 +10,12 @@ const login = (prevState = initialState, action: LoginAction) => {
   switch (action.type) {
     case 'login/getToken':
       return action.payload
+
+    case 'login/logOut':
+      return {
+        token: '',
+        refresh_token: '',
+      }
     default:
       return prevState
   }

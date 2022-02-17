@@ -21,3 +21,15 @@ export const getUserProfile = (): RootThunkAction => {
     })
   }
 }
+
+export const updateUserProfile = (
+  key: string,
+  value: string
+): RootThunkAction => {
+  return async (dispatch) => {
+    await request.patch('/user/profile', {
+      [key]: value,
+    })
+    await dispatch(getUserProfile())
+  }
+}

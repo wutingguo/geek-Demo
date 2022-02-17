@@ -1,18 +1,14 @@
 import React from 'react'
 import './App.scss'
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-} from 'react-router-dom'
+import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import Login from './pages/Login'
 import Layout from './pages/Layout'
 import Edit from '@/pages/Profile/Edit'
 import PrivateRoute from './components/PrivateRoute'
+import history from './utils/history'
 function App() {
   return (
-    <Router>
+    <Router history={history}>
       <div className="app">
         <Switch>
           <Redirect exact from="/" to="/login"></Redirect>

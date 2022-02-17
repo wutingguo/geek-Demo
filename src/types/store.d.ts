@@ -24,6 +24,10 @@ export type LoginAction =
   | {
       type: 'login/logOut'
     }
+  | {
+      type: 'login/seveToken'
+      payload: Token
+    }
 // --------------------profile模块------------------
 export type ProfileState = {
   user: User

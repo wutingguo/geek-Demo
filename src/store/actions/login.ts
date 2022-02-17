@@ -13,6 +13,14 @@ export const logOut = (): LoginAction => {
   }
 }
 
+export const seveToken = (token: Token): LoginAction => {
+  setToken(token)
+  return {
+    type: 'login/seveToken',
+    payload: token,
+  }
+}
+
 export const login = (value: LoginType): RootThunkAction => {
   return async (dispatch) => {
     const res = await request.post<ApiResponse<Token>>('/authorizations', value)

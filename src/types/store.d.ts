@@ -1,13 +1,13 @@
 import store from '@/store'
 import { ThunkAction } from 'redux-thunk'
-import { User, UserProfile } from './data'
+import { Channels, User, UserProfile } from './data'
 // ----------------------根类型----------------------
 export type RootState = ReturnType<typeof store.getState>
 export type ApiResponse<T> = {
   message: string
   data: T
 }
-export type RootAction = LoginAction | ProfileAction
+export type RootAction = LoginAction | ProfileAction | HomeAction
 export type RootThunkAction = ThunkAction<void, RootState, any, RootAction>
 
 // -----------------------login模块-----------------
@@ -33,6 +33,7 @@ export type ProfileState = {
   user: User
   userProfile: UserProfile
 }
+
 export type ProfileAction =
   | {
       type: 'profile/getProfile'
@@ -42,3 +43,17 @@ export type ProfileAction =
       type: 'profile/getUserProfile'
       payload: UserProfile
     }
+// -------------------home模块-----------------
+export type HomeAction =
+  | {
+      type: 'home/getUserChannels'
+      payload: Channels[]
+    }
+  | {
+      type: 'home/getAllChannels'
+      payload: Channels[]
+    }
+export type HomeStateType = {
+  userChannels: Channels[]
+  allChannels: Channels[]
+}

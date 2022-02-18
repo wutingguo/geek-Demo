@@ -6,6 +6,7 @@ import Layout from './pages/Layout'
 import Edit from '@/pages/Profile/Edit'
 import PrivateRoute from './components/PrivateRoute'
 import history from './utils/history'
+import Chat from './pages/Profile/Chat'
 function App() {
   return (
     <Router history={history}>
@@ -15,6 +16,7 @@ function App() {
           <Route path="/login" component={Login}></Route>
           <Route path="/home" component={Layout}></Route>
           <PrivateRoute path="/profile/edit" component={Edit}></PrivateRoute>
+          <PrivateRoute path="/chat" component={Chat}></PrivateRoute>
         </Switch>
       </div>
     </Router>

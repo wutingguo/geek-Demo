@@ -9,7 +9,7 @@ type Props = {
 
 export default function Icon({ type, className, onClick }: Props) {
   return (
-    <svg className={classnames('icon', className)}>
+    <svg className={classnames('icon', className)} onClick={onClick}>
       <use xlinkHref={`#${type}`}></use>
     </svg>
   )

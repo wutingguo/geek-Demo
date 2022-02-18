@@ -20,3 +20,8 @@ export type UserProfile = {
   birthday: string
   intro: string
 }
+// 用户频道channels
+export type Channels = {
+  id: number
+  name: string
+}

@@ -1,6 +1,6 @@
 import store from '@/store'
 import { ThunkAction } from 'redux-thunk'
-import { Channels, User, UserProfile } from './data'
+import { Channels, User, UserProfile, Article } from './data'
 // ----------------------根类型----------------------
 export type RootState = ReturnType<typeof store.getState>
 export type ApiResponse<T> = {
@@ -53,7 +53,26 @@ export type HomeAction =
       type: 'home/getAllChannels'
       payload: Channels[]
     }
+  | {
+      type: 'home/changeActive'
+      payload: number
+    }
+  | {
+      type: 'home/getArticle'
+      payload: {
+        artID: number
+        pre_timestamp: string
+        results: Article[]
+      }
+    }
 export type HomeStateType = {
   userChannels: Channels[]
   allChannels: Channels[]
+  active: number
+  channelArticles: {
+    [key: number]: {
+      pre_timestamp: string
+      results: Article[]
+    }
+  }
 }

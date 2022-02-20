@@ -22,7 +22,7 @@ const Chat = () => {
   const { user } = useInitState(getProfile, 'profile')
   const [message, setMessage] = useState('')
   const clientRef = useRef<Socket | null>(null)
-  const listRef = useRef(null)
+  // const listRef = useRef(null)
   useEffect(() => {
     // 建立链接
     const client = io('http://geek.itheima.net', {

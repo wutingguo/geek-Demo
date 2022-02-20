@@ -2,13 +2,18 @@ import classnames from 'classnames'
 
 import Icon from '@/components/Icon'
 import styles from './index.module.scss'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '@/types/store'
+import { changeActive, delChannel } from '@/store/actions/home'
+import { useState } from 'react'
 type Props = {
   hide: () => void
 }
 const Channels = ({ hide }: Props) => {
-  const { userChannels } = useSelector((state: RootState) => state.home)
+  const { userChannels, active } = useSelector((state: RootState) => state.home)
+  const dispatch = useDispatch()
+  const [isEdit, setEdit] = useState(false)
+
   return (
     <div className={styles.root}>
       <div className="channel-header">
@@ -16,18 +21,39 @@ const Channels = ({ hide }: Props) => {
       </div>
       <div className="channel-content">
         {/* 编辑时，添加类名 edit */}
-        <div className={classnames('channel-item')}>
+        <div className={classnames('channel-item', isEdit ? 'edit' : '')}>
           <div className="channel-item-header">
             <span className="channel-item-title">我的频道</span>
             <span className="channel-item-title-extra">点击进入频道</span>
-            <span className="channel-item-edit">编辑</span>
+            <span
+              className="channel-item-edit"
+              onClick={() => setEdit(!isEdit)}
+            >
+              {isEdit ? '完成' : '编辑'}
+            </span>
           </div>
           <div className="channel-list">
             {/* 选中时，添加类名 selected */}
             {userChannels.map((item) => (
-              <span className={classnames('channel-list-item')} key={item.id}>
+              <span
+                onClick={() => {
+                  if (isEdit) return
+                  dispatch(changeActive(item.id))
+                  hide()
+                }}
+                className={classnames(
+                  'channel-list-item',
+                  item.id === active ? 'selected' : ''
+                )}
+                key={item.id}
+              >
                 {item.name}
-                <Icon type="iconbtn_tag_close" />
+                {item.id !== 0 && (
+                  <Icon
+                    type="iconbtn_tag_close"
+                    onClick={() => dispatch(delChannel(item.id))}
+                  />
+                )}
               </span>
             ))}
           </div>

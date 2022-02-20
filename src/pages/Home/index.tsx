@@ -1,16 +1,23 @@
 import Icon from '@/components/Icon'
-import { getAllChannels, getUserChannels } from '@/store/actions/home'
+import {
+  changeActive,
+  getAllChannels,
+  getUserChannels,
+} from '@/store/actions/home'
 import { useInitState } from '@/utils/hooks'
 import { Tabs, Popup } from 'antd-mobile'
 import { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import Channels from './component/Channels'
+import ArticleList from './component/ArticleList'
 
 import styles from './index.module.scss'
 
 const Home = () => {
-  const { userChannels } = useInitState(getUserChannels, 'home')
+  const { userChannels, active } = useInitState(getUserChannels, 'home')
   useInitState(getAllChannels, 'home')
   const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch()
   const show = () => {
     setVisible(true)
   }
@@ -21,10 +28,14 @@ const Home = () => {
     <div className={styles.root}>
       {/* 频道 Tabs 列表 */}
       {userChannels.length > 0 && (
-        <Tabs className="tabs">
+        <Tabs
+          className="tabs"
+          activeKey={active + ''}
+          onChange={(key) => dispatch(changeActive(+key))}
+        >
           {userChannels.map((item) => (
             <Tabs.Tab title={item.name} key={item.id}>
-              内容{item.id}---{item.name}
+              <ArticleList artID={item.id}></ArticleList>
             </Tabs.Tab>
           ))}
         </Tabs>

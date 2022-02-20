@@ -1,14 +1,36 @@
-import { RootThunkAction } from '@/types/store'
+import { HomeAction, RootThunkAction } from '@/types/store'
 import request from '@/utils/requst'
-
+import {
+  getLocalChannel,
+  getToken,
+  hasToken,
+  saveLocalChannel,
+} from '@/utils/tokenSeting'
+const token = getToken().token
 export const getUserChannels = (): RootThunkAction => {
   return async (dispatch) => {
-    const res = await request.get('/user/channels')
-    console.log(res)
-    dispatch({
-      type: 'home/getUserChannels',
-      payload: res.data.data.channels,
-    })
+    if (token) {
+      const res = await request.get('/user/channels')
+      dispatch({
+        type: 'home/getUserChannels',
+        payload: res.data.data.channels,
+      })
+    } else {
+      const channels = getLocalChannel()
+      if (channels.length > 0) {
+        dispatch({
+          type: 'home/getUserChannels',
+          payload: channels,
+        })
+      } else {
+        const res = await request.get('/user/channels')
+        dispatch({
+          type: 'home/getUserChannels',
+          payload: res.data.data.channels,
+        })
+        saveLocalChannel(res.data.data.channels)
+      }
+    }
   }
 }
 export const getAllChannels = (): RootThunkAction => {
@@ -17,6 +39,51 @@ export const getAllChannels = (): RootThunkAction => {
     dispatch({
       type: 'home/getAllChannels',
       payload: res.data.data.channels,
+    })
+  }
+}
+// 更改高亮的action
+export const changeActive = (active: number): HomeAction => {
+  return {
+    type: 'home/changeActive',
+    payload: active,
+  }
+}
+// 删除channels
+export const delChannel = (id: number): RootThunkAction => {
+  return async (dispatch, getState) => {
+    const { userChannels } = getState().home
+    if (hasToken()) {
+      await request.delete('/user/channels', {
+        data: {
+          channels: [id],
+        },
+      })
+    } else {
+      saveLocalChannel(userChannels.filter((item) => item.id !== id))
+    }
+    dispatch(getUserChannels())
+  }
+}
+// 获取文章列表
+export const getArticle = (
+  channel_id: number,
+  timestamp: string
+): RootThunkAction => {
+  return async (dispatch) => {
+    const res = await request.get('/articles', {
+      params: {
+        channel_id,
+        timestamp,
+      },
+    })
+    dispatch({
+      type: 'home/getArticle',
+      payload: {
+        artID: channel_id,
+        pre_timestamp: res.data.data.pre_timestamp,
+        results: res.data.data.results,
+      },
     })
   }
 }

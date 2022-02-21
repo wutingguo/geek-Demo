@@ -7,6 +7,8 @@ import Edit from '@/pages/Profile/Edit'
 import PrivateRoute from './components/PrivateRoute'
 import history from './utils/history'
 import Chat from './pages/Profile/Chat'
+import SearchPage from './pages/Search'
+import Article from './pages/Article'
 function App() {
   return (
     <Router history={history}>
@@ -15,6 +17,8 @@ function App() {
           <Redirect exact from="/" to="/login"></Redirect>
           <Route path="/login" component={Login}></Route>
           <Route path="/home" component={Layout}></Route>
+          <Route path="/search" component={SearchPage}></Route>
+          <Route path="/article/:id" component={Article}></Route>
           <PrivateRoute path="/profile/edit" component={Edit}></PrivateRoute>
           <PrivateRoute path="/chat" component={Chat}></PrivateRoute>
         </Switch>

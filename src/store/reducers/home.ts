@@ -38,6 +38,17 @@ function home(prevState = initValue, action: HomeAction): HomeStateType {
           },
         },
       }
+    case 'home/RefreshArticle':
+      return {
+        ...prevState,
+        channelArticles: {
+          ...prevState.channelArticles,
+          [action.payload.artID]: {
+            pre_timestamp: action.payload.pre_timestamp,
+            results: [...action.payload.results],
+          },
+        },
+      }
     default:
       return prevState
   }

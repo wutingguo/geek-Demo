@@ -40,3 +40,7 @@ export type Article = {
     images: string[]
   }
 }
+// 搜索建议列表
+export type Suggestion = string[]
+// 搜索历史列表数据
+export type HistoryType = string[]

@@ -12,12 +12,14 @@ import Channels from './component/Channels'
 import ArticleList from './component/ArticleList'
 
 import styles from './index.module.scss'
+import { useHistory } from 'react-router-dom'
 
 const Home = () => {
   const { userChannels, active } = useInitState(getUserChannels, 'home')
   useInitState(getAllChannels, 'home')
   const [visible, setVisible] = useState(false)
   const dispatch = useDispatch()
+  const history = useHistory()
   const show = () => {
     setVisible(true)
   }
@@ -42,7 +44,7 @@ const Home = () => {
       )}
 
       <div className="tabs-opration">
-        <Icon type="iconbtn_search" />
+        <Icon type="iconbtn_search" onClick={() => history.push('/search')} />
         <Icon type="iconbtn_channel" onClick={show} />
       </div>
       <Popup visible={visible} position="left">
